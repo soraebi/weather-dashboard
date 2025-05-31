@@ -75,7 +75,7 @@
                 🔄
               </button>
               <button
-                @click="toggleDarkMode"
+                @click="() => toggleDarkMode()"
                 class="p-2 lg:p-3 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg"
                 title="ダークモード切替"
               >

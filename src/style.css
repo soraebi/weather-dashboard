@@ -1,1 +1,131 @@
 @import 'tailwindcss';
+
+/* Tailwind CSS 4 ダークモード */
+@layer base {
+  html {
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  html.dark {
+    color-scheme: dark;
+    background-color: rgb(17 24 39); /* gray-900 */
+    color: rgb(243 244 246); /* gray-100 */
+  }
+  
+  html:not(.dark) {
+    color-scheme: light;
+    background-color: rgb(249 250 251); /* gray-50 */
+    color: rgb(17 24 39); /* gray-900 */
+  }
+  
+  html.dark body {
+    background-color: rgb(17 24 39);
+    color: rgb(243 244 246);
+  }
+}
+
+/* Tailwindのダークモードクラスが効かない場合のフォールバック */
+@layer utilities {
+  .dark\:bg-gray-900 {
+    background-color: rgb(17 24 39) !important;
+  }
+  
+  .dark\:bg-gray-800 {
+    background-color: rgb(31 41 55) !important;
+  }
+  
+  .dark\:text-white {
+    color: rgb(255 255 255) !important;
+  }
+  
+  .dark\:text-gray-100 {
+    color: rgb(243 244 246) !important;
+  }
+  
+  /* 背景グラデーション強制適用 */
+  html.dark .min-h-screen {
+    background: linear-gradient(135deg, rgb(17 24 39) 0%, rgb(67 56 202) 100%) !important;
+  }
+  
+  html:not(.dark) .min-h-screen {
+    background: linear-gradient(135deg, rgb(239 246 255) 0%, rgb(224 231 255) 100%) !important;
+  }
+  
+  /* カード背景色強制適用 - ダークモード時のみ */
+  html.dark .bg-white:not(.force-light) {
+    background-color: rgb(31 41 55) !important; /* gray-800 */
+  }
+  
+  html.dark .bg-gray-50:not(.force-light) {
+    background-color: rgb(55 65 81) !important; /* gray-700 */
+  }
+  
+  /* ライトモード時は元の色を維持 */
+  html:not(.dark) .bg-white {
+    background-color: rgb(255 255 255) !important;
+  }
+  
+  html:not(.dark) .bg-gray-50 {
+    background-color: rgb(249 250 251) !important; /* gray-50 */
+  }
+  
+  /* テキスト色強制適用 - ダークモード時のみ */
+  html.dark .text-gray-900:not(.force-light) {
+    color: rgb(255 255 255) !important;
+  }
+  
+  html.dark .text-gray-800:not(.force-light) {
+    color: rgb(243 244 246) !important; /* gray-100 */
+  }
+  
+  html.dark .text-gray-600:not(.force-light) {
+    color: rgb(209 213 219) !important; /* gray-300 */
+  }
+  
+  html.dark .text-gray-500:not(.force-light) {
+    color: rgb(156 163 175) !important; /* gray-400 */
+  }
+  
+  /* ライトモード時のテキスト色 */
+  html:not(.dark) .text-gray-900 {
+    color: rgb(17 24 39) !important;
+  }
+  
+  html:not(.dark) .text-gray-800 {
+    color: rgb(31 41 55) !important;
+  }
+  
+  html:not(.dark) .text-gray-600 {
+    color: rgb(75 85 99) !important;
+  }
+  
+  html:not(.dark) .text-gray-500 {
+    color: rgb(107 114 128) !important;
+  }
+  
+  /* ヘッダー背景 */
+  html.dark .bg-white\/80:not(.force-light) {
+    background-color: rgba(31, 41, 55, 0.8) !important; /* gray-800/80 */
+  }
+  
+  html:not(.dark) .bg-white\/80 {
+    background-color: rgba(255, 255, 255, 0.8) !important;
+  }
+  
+  /* ボーダー色 */
+  html.dark .border-gray-200:not(.force-light) {
+    border-color: rgb(55 65 81) !important; /* gray-700 */
+  }
+  
+  html.dark .border-gray-100:not(.force-light) {
+    border-color: rgb(55 65 81) !important; /* gray-700 */
+  }
+  
+  html:not(.dark) .border-gray-200 {
+    border-color: rgb(229 231 235) !important;
+  }
+  
+  html:not(.dark) .border-gray-100 {
+    border-color: rgb(243 244 246) !important;
+  }
+}

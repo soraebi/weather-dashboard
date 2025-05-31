@@ -17,6 +17,7 @@ const useWeatherApp = () => {
         lastUpdated,
         weatherRecommendations,
         toggleDarkMode,
+        initializeDarkMode,
         addFavoriteLocation,
         removeFavoriteLocation,
         updateFavoriteWeather
@@ -41,6 +42,9 @@ const useWeatherApp = () => {
      */
     const initializeApp = () => {
         console.log('Component mounted, loading weather data...');
+        
+        // ダークモード初期化
+        initializeDarkMode();
         
         // サービス初期化
         if (!weatherService.initializeService()) {

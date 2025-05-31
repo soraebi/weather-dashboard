@@ -75,7 +75,34 @@ const useWeatherState = () => {
 
     const toggleDarkMode = () => {
         state.isDarkMode = !state.isDarkMode;
-        document.documentElement.classList.toggle('dark', state.isDarkMode);
+        
+        // HTMLクラスを設定
+        if (state.isDarkMode) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+        
+        // LocalStorageに保存
+        localStorage.setItem('darkMode', state.isDarkMode);
+    };
+
+    // 初期化時にLocalStorageからダークモード設定を読み込み
+    const initializeDarkMode = () => {
+        const savedDarkMode = localStorage.getItem('darkMode');
+        if (savedDarkMode !== null) {
+            state.isDarkMode = savedDarkMode === 'true';
+        } else {
+            // システムの設定を確認
+            state.isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        }
+        
+        // 確実にHTMLクラスを設定
+        if (state.isDarkMode) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
     };
 
     const addFavoriteLocation = (location) => {
@@ -125,6 +152,7 @@ const useWeatherState = () => {
         setLoading,
         setError,
         toggleDarkMode,
+        initializeDarkMode,
         addFavoriteLocation,
         removeFavoriteLocation,
         updateFavoriteWeather
