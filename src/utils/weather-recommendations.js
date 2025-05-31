@@ -44,3 +44,6 @@ const getWeatherRecommendations = (weatherCode, temperature, uvIndex) => {
 
     return recommendations;
 };
+
+// 関数をwindowオブジェクトに公開
+window.getWeatherRecommendations = getWeatherRecommendations;

@@ -18,3 +18,6 @@ const weeklyForecastTemplate = () => `
         </div>
     </div>
 `;
+
+// テンプレート関数をwindowオブジェクトに公開
+window.weeklyForecastTemplate = weeklyForecastTemplate;

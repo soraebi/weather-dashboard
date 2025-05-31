@@ -12,3 +12,6 @@ const loadingTemplate = () => `
         </div>
     </div>
 `;
+
+// テンプレート関数をwindowオブジェクトに公開
+window.loadingTemplate = loadingTemplate;

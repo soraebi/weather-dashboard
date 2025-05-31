@@ -69,3 +69,6 @@ const headerTemplate = () => `
         </div>
     </header>
 `;
+
+// テンプレート関数をwindowオブジェクトに公開
+window.headerTemplate = headerTemplate;

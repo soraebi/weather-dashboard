@@ -17,3 +17,6 @@ const weatherAppTemplate = `
         ${mainContentTemplate()}
     </div>
 `;
+
+// グローバルに公開
+window.weatherAppTemplate = weatherAppTemplate;

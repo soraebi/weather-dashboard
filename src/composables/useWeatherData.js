@@ -229,3 +229,5 @@ const useWeatherData = (state, utils, charts) => {
         getTotalPrecipitation
     };
 };
+
+window.useWeatherData = useWeatherData;

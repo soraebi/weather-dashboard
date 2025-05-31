@@ -60,3 +60,9 @@ const getTemperatureColor = (temperature) => {
     if (temperature >= 10) return '#8b5cf6'; // 寒い - 紫
     return '#6366f1'; // 極寒 - インディゴ
 };
+
+// 関数をwindowオブジェクトに公開
+window.getWindDirection = getWindDirection;
+window.getCurrentTimeString = getCurrentTimeString;
+window.safeRound = safeRound;
+window.getTemperatureColor = getTemperatureColor;

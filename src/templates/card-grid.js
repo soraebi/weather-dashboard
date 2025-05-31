@@ -17,3 +17,6 @@ const cardGridTemplate = () => `
         ${precipitationChartTemplate()}
     </div>
 `;
+
+// テンプレート関数をwindowオブジェクトに公開
+window.cardGridTemplate = cardGridTemplate;

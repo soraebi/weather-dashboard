@@ -42,3 +42,7 @@ const WEATHER_CODES = {
 const getWeatherInfo = (code) => {
     return WEATHER_CODES[code] || { icon: '❓', description: '不明' };
 };
+
+// グローバルに公開
+window.getWeatherInfo = getWeatherInfo;
+window.WEATHER_CODES = WEATHER_CODES;

@@ -2,7 +2,7 @@
 // Weather Dashboard - State Management
 // ===========================================
 
-const { ref, reactive, computed } = Vue;
+import { ref, reactive, computed } from 'vue'
 
 /**
  * 天気アプリケーションの状態管理を提供するComposable
@@ -130,3 +130,6 @@ const useWeatherState = () => {
         updateFavoriteWeather
     };
 };
+
+// グローバルに公開（既存の仕組みとの互換性のため）
+window.useWeatherState = useWeatherState;

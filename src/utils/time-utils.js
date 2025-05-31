@@ -69,3 +69,7 @@ const filterHourlyDataFromTime = (hourlyData, startTime, hours) => {
 
     return result;
 };
+
+// 関数をwindowオブジェクトに公開
+window.getNextHourTime = getNextHourTime;
+window.filterHourlyDataFromTime = filterHourlyDataFromTime;

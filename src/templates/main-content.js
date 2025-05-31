@@ -19,3 +19,6 @@ const mainContentTemplate = () => `
         </div>
     </main>
 `;
+
+// テンプレート関数をwindowオブジェクトに公開
+window.mainContentTemplate = mainContentTemplate;

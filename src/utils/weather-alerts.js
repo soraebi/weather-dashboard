@@ -73,3 +73,6 @@ const checkAlerts = (currentData, dailyData) => {
 
     return alerts;
 };
+
+// 関数をwindowオブジェクトに公開
+window.checkAlerts = checkAlerts;

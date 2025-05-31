@@ -15,3 +15,6 @@ const errorTemplate = () => `
         </div>
     </div>
 `;
+
+// テンプレート関数をwindowオブジェクトに公開
+window.errorTemplate = errorTemplate;

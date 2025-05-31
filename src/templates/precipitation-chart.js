@@ -13,3 +13,6 @@ const precipitationChartTemplate = () => `
         </div>
     </div>
 `;
+
+// テンプレート関数をwindowオブジェクトに公開
+window.precipitationChartTemplate = precipitationChartTemplate;

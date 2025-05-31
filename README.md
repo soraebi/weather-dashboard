@@ -17,17 +17,17 @@
 
 ## 🛠️ 技術スタック
 
-- **フロントエンド**: Vue 3 (CDN版)
-- **スタイリング**: Tailwind CSS 4
-- **チャート**: Chart.js 4
+- **フロントエンド**: Vue 3.5+ (SFC + Composition API)
+- **スタイリング**: Tailwind CSS 4 (PostCSS統合)
+- **チャート**: Chart.js 4 (ES modules)
 - **API**: Open-Meteo Weather API
-- **開発ツール**: Vite
+- **開発ツール**: Vite 6 + Vue Plugin
 - **フォント**: Google Fonts (Inter)
 
 ## 🚀 セットアップ
 
 ### 必要な環境
-- Node.js (14以上)
+- Node.js (18以上推奨)
 - モダンブラウザ（ES6+対応）
 
 ### インストール
@@ -60,44 +60,59 @@ npm run preview
 ## 📁 プロジェクト構造
 
 ```
-src/
-├── api/                    # API関連
-│   ├── config.js          # API設定とエンドポイント
-│   ├── weather-api.js     # 統合APIクラス
-│   ├── cache-manager.js   # キャッシュ管理
-│   └── ...
-├── composables/           # Vue 3 Composables
-│   ├── useWeatherApp.js   # メインアプリ統合
-│   ├── useWeatherState.js # 状態管理（お気に入り地点含む）
-│   ├── useWeatherService.js # API連携とお気に入り機能
-│   └── ...
-├── templates/             # UIテンプレート
-│   ├── main-layout.js     # メインレイアウト
-│   ├── current-weather.js # 現在の天気表示
-│   ├── favorite-locations.js # お気に入り地点カード
-│   └── ...
-└── utils/                 # ユーティリティ関数
-    ├── weather-codes.js   # 天気コード変換
-    ├── formatting-utils.js# データフォーマット
-    └── ...
+weather-dashboard/
+├── public/                 # 静的ファイル
+│   └── favicon.svg        # ダッシュボード用アイコン
+├── src/
+│   ├── App.vue            # メインVue SFCコンポーネント
+│   ├── main.js            # Viteエントリーポイント
+│   ├── style.css          # Tailwind CSS imports
+│   ├── api/               # API関連
+│   │   ├── config.js      # API設定とエンドポイント
+│   │   ├── weather-api.js # 統合APIクラス
+│   │   ├── cache-manager.js # キャッシュ管理
+│   │   ├── geocoding-api.js # 位置情報API
+│   │   ├── geolocation-api.js # GPS位置取得
+│   │   ├── japanese-cities.js # 日本都市データ
+│   │   └── weather-data-api.js # 天気データAPI
+│   ├── composables/       # Vue 3 Composables
+│   │   ├── useWeatherApp.js # メインアプリ統合
+│   │   ├── useWeatherState.js # 状態管理（お気に入り地点含む）
+│   │   ├── useWeatherService.js # API連携とお気に入り機能
+│   │   ├── useWeatherData.js # データ処理
+│   │   ├── useWeatherUtils.js # ユーティリティ関数
+│   │   ├── useCharts.js   # Chart.js統合
+│   │   └── index.js       # Composables統合
+│   ├── templates/         # Legacy文字列テンプレート（後方互換性）
+│   │   └── ...            # 各種テンプレートファイル
+│   └── utils/             # ユーティリティ関数
+│       ├── weather-codes.js # 天気コード変換
+│       ├── formatting-utils.js # データフォーマット
+│       ├── time-utils.js  # 時間処理
+│       ├── weather-alerts.js # アラート判定
+│       ├── weather-recommendations.js # 推奨事項
+│       └── index.js       # ユーティリティ統合
+├── index.html             # メインHTMLファイル
+├── package.json           # 依存関係とスクリプト
+├── vite.config.js         # Vite + Vue設定
+├── tailwind.config.js     # Tailwind CSS設定
+├── postcss.config.js      # PostCSS設定（@tailwindcss/postcss）
+├── CLAUDE.md              # Claude Code設定
+└── README.md              # プロジェクト説明
 ```
 
 ## 🏗️ アーキテクチャ
 
-このアプリケーションは**コンポーザブルベースのアーキテクチャ**を採用しています：
+このアプリケーションは**モダンなコンポーザブルベースアーキテクチャ**を採用しています：
 
-- **モジュラー設計**: 機能ごとに分離されたComposables
+### 🏗️ **設計原則**
+- **Vue 3 SFC**: Single File Componentによる統合的なUIコンポーネント
+- **Composition API**: 機能ごとに分離されたComposables
 - **リアクティブ状態管理**: Vue 3のReactivity APIを活用
-- **テンプレート文字列システム**: Build不要の軽量テンプレート
+- **ES Modules**: 完全なnpm版による依存関係管理
 - **階層キャッシュ**: 30分TTLのインメモリキャッシュ
 - **API抽象化**: Open-Meteo APIの統合インターフェース
-
-## 🌐 対応ブラウザ
-
-- Chrome (最新版)
-- Firefox (最新版)  
-- Safari (最新版)
-- Edge (最新版)
+- **Viteビルド最適化**: Tree-shakingとHMR対応
 
 ## 📡 データソース
 
@@ -110,7 +125,9 @@ src/
 - **モダンUI**: グラデーション、ソフトシャドウ、スムーズアニメーション
 - **レスポンシブ**: モバイルファーストのグリッドレイアウト
 - **アクセシビリティ**: 適切なコントラスト比とキーボードナビゲーション
-- **パフォーマンス**: 最適化された画像とCSSアニメーション
+- **パフォーマンス**: Viteによるビルド最適化とCSSアニメーション
+- **バンドル最適化**: Tree-shakingによる必要な機能のみの読み込み
+- **ホットリロード**: 開発時の高速な変更反映（HMR）
 
 ## 🎯 使用方法
 
@@ -139,6 +156,12 @@ src/
 ### UI テーマの変更
 `tailwind.config.js` でカラーパレットやアニメーションをカスタマイズできます。
 
+### Vite設定のカスタマイズ
+`vite.config.js` でビルド設定、プラグイン、開発サーバー設定を変更できます。
+
+### Vue SFCコンポーネントの拡張
+`src/App.vue` を分割して複数のSFCコンポーネントに分離することで、さらなるモジュール化が可能です。
+
 ## 🤝 コントリビューション
 
 1. このリポジトリをフォーク
@@ -149,7 +172,7 @@ src/
 
 ## 📄 ライセンス
 
-このプロジェクトはMITライセンスの下で公開されています。
+このプロジェクトは[MITライセンス](./LICENSE)の下で公開されています。
 
 ## 🙏 謝辞
 

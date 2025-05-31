@@ -26,3 +26,6 @@ const weatherAlertsTemplate = () => `
         </div>
     </div>
 `;
+
+// テンプレート関数をwindowオブジェクトに公開
+window.weatherAlertsTemplate = weatherAlertsTemplate;

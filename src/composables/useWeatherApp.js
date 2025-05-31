@@ -2,7 +2,7 @@
 // Weather Dashboard - Application Integration
 // ===========================================
 
-const { onMounted } = Vue;
+import { onMounted, onUnmounted } from 'vue'
 
 /**
  * 天気アプリケーション全体を統合するComposable
@@ -206,7 +206,7 @@ const useWeatherApp = () => {
         initializeApp();
     });
 
-    Vue.onUnmounted(() => {
+    onUnmounted(() => {
         cleanupEventListeners();
         charts.cleanupCharts();
     });
@@ -256,3 +256,6 @@ const useWeatherApp = () => {
         }
     };
 };
+
+// グローバルに公開（既存の仕組みとの互換性のため）
+window.useWeatherApp = useWeatherApp;

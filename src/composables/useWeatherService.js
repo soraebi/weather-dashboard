@@ -380,3 +380,5 @@ const useWeatherService = (state, searchQuery, weatherData, weatherState) => {
         loadFavoriteLocationWeather
     };
 };
+
+window.useWeatherService = useWeatherService;

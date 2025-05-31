@@ -92,3 +92,6 @@ const favoriteLocationsTemplate = () => `
 
     </div>
 `;
+
+// テンプレート関数をwindowオブジェクトに公開
+window.favoriteLocationsTemplate = favoriteLocationsTemplate;

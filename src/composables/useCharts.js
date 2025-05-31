@@ -2,7 +2,7 @@
 // Weather Dashboard - Charts Management
 // ===========================================
 
-const { nextTick, onUnmounted } = Vue;
+import { nextTick, onUnmounted } from 'vue'
 
 /**
  * チャート管理を提供するComposable
@@ -336,3 +336,6 @@ const useCharts = (state, utils) => {
         cleanupCharts
     };
 };
+
+// グローバルに公開（既存の仕組みとの互換性のため）
+window.useCharts = useCharts;

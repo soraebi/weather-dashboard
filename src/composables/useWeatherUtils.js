@@ -213,3 +213,5 @@ const useWeatherUtils = () => {
         getTimeString: safeGetTimeString
     };
 };
+
+window.useWeatherUtils = useWeatherUtils;

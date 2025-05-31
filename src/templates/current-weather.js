@@ -79,3 +79,6 @@ const currentWeatherTemplate = () => `
         </div>
     </div>
 `;
+
+// テンプレート関数をwindowオブジェクトに公開
+window.currentWeatherTemplate = currentWeatherTemplate;
