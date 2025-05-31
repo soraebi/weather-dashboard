@@ -117,3 +117,7 @@ config/api-keys.js
 # Documentation builds
 docs/.vitepress/cache
 docs/.vitepress/dist
+
+# Test files
+test-*.html
+*.test.html
