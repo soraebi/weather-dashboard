@@ -47,7 +47,7 @@ const currentWeatherTemplate = () => `
                 </div>
                 <div class="text-center">
                     <div class="text-lg lg:text-xl font-semibold">
-                        {{ safeRound(state.currentWeather.wind_speed_10m || 0) }} km/h
+                        {{ safeRound((state.currentWeather.wind_speed_10m || 0) / 3.6, 1) }} m/s
                     </div>
                     <div class="text-sm opacity-70">風速</div>
                 </div>

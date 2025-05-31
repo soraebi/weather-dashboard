@@ -35,6 +35,14 @@ const headerTemplate = () => `
                     <!-- ボタングループ -->
                     <div class="flex items-center space-x-2">
                         <button
+                            @click="addCurrentLocationToFavorites"
+                            v-if="state.currentLocation"
+                            class="p-2 lg:p-3 bg-yellow-500 hover:bg-yellow-600 text-white rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg"
+                            title="お気に入りに追加"
+                        >
+                            ⭐
+                        </button>
+                        <button
                             @click="loadCurrentLocationWeather"
                             class="p-2 lg:p-3 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg"
                             title="現在地"

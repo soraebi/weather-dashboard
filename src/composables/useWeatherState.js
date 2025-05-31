@@ -15,6 +15,7 @@ const useWeatherState = () => {
         hourlyForecast: [],
         weeklyForecast: [],
         favorites: [],
+        favoriteLocations: [],
         alerts: [],
         currentLocation: null,
         loading: false,
@@ -77,6 +78,38 @@ const useWeatherState = () => {
         document.documentElement.classList.toggle('dark', state.isDarkMode);
     };
 
+    const addFavoriteLocation = (location) => {
+        const exists = state.favoriteLocations.find(fav => 
+            Math.abs(fav.latitude - location.latitude) < 0.01 && 
+            Math.abs(fav.longitude - location.longitude) < 0.01
+        );
+        if (!exists) {
+            state.favoriteLocations.push({
+                id: Date.now(),
+                name: location.name,
+                latitude: location.latitude,
+                longitude: location.longitude,
+                weatherData: null,
+                lastUpdated: null
+            });
+        }
+    };
+
+    const removeFavoriteLocation = (id) => {
+        const index = state.favoriteLocations.findIndex(fav => fav.id === id);
+        if (index > -1) {
+            state.favoriteLocations.splice(index, 1);
+        }
+    };
+
+    const updateFavoriteWeather = (id, weatherData) => {
+        const favorite = state.favoriteLocations.find(fav => fav.id === id);
+        if (favorite) {
+            favorite.weatherData = weatherData;
+            favorite.lastUpdated = new Date();
+        }
+    };
+
     return {
         // 状態
         state,
@@ -91,6 +124,9 @@ const useWeatherState = () => {
         clearError,
         setLoading,
         setError,
-        toggleDarkMode
+        toggleDarkMode,
+        addFavoriteLocation,
+        removeFavoriteLocation,
+        updateFavoriteWeather
     };
 };

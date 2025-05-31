@@ -143,6 +143,54 @@ const useWeatherUtils = () => {
         }
     };
 
+    /**
+     * 天気アイコンを安全に取得
+     * @param {number} code - 天気コード
+     * @returns {string} 天気アイコン
+     */
+    const safeGetWeatherIcon = (code) => {
+        try {
+            return window.WeatherUtils ? 
+                WeatherUtils.getWeatherInfo(code).icon : 
+                '❓';
+        } catch (error) {
+            console.warn('WeatherUtils.getWeatherIcon error:', error);
+            return '❓';
+        }
+    };
+
+    /**
+     * 天気説明を安全に取得
+     * @param {number} code - 天気コード
+     * @returns {string} 天気説明
+     */
+    const safeGetWeatherDescription = (code) => {
+        try {
+            return window.WeatherUtils ? 
+                WeatherUtils.getWeatherInfo(code).description : 
+                '不明';
+        } catch (error) {
+            console.warn('WeatherUtils.getWeatherDescription error:', error);
+            return '不明';
+        }
+    };
+
+    /**
+     * 時刻文字列を安全に取得
+     * @param {Date} date - 日付オブジェクト
+     * @returns {string} 時刻文字列
+     */
+    const safeGetTimeString = (date) => {
+        try {
+            if (!date) return '--:--';
+            const d = new Date(date);
+            return d.toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' });
+        } catch (error) {
+            console.warn('getTimeString error:', error);
+            return '--:--';
+        }
+    };
+
     return {
         safeGetWeatherInfo,
         safeSafeRound,
@@ -152,10 +200,16 @@ const useWeatherUtils = () => {
         safeGetNextHourTime,
         safeFilterHourlyDataFromTime,
         safeCheckAlerts,
+        safeGetWeatherIcon,
+        safeGetWeatherDescription,
+        safeGetTimeString,
         
         // テンプレートで使用される名前でのエイリアス
         getWeatherInfo: safeGetWeatherInfo,
         safeRound: safeSafeRound,
-        getWindDirection: safeGetWindDirection
+        getWindDirection: safeGetWindDirection,
+        getWeatherIcon: safeGetWeatherIcon,
+        getWeatherDescription: safeGetWeatherDescription,
+        getTimeString: safeGetTimeString
     };
 };

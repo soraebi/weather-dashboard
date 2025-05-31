@@ -16,7 +16,10 @@ const useWeatherApp = () => {
         currentLocationName,
         lastUpdated,
         weatherRecommendations,
-        toggleDarkMode
+        toggleDarkMode,
+        addFavoriteLocation,
+        removeFavoriteLocation,
+        updateFavoriteWeather
     } = useWeatherState();
 
     const utils = useWeatherUtils();
@@ -25,7 +28,13 @@ const useWeatherApp = () => {
 
     const weatherData = useWeatherData(state, utils, charts);
 
-    const weatherService = useWeatherService(state, searchQuery, weatherData);
+    const weatherState = {
+        addFavoriteLocation,
+        removeFavoriteLocation,
+        updateFavoriteWeather
+    };
+
+    const weatherService = useWeatherService(state, searchQuery, weatherData, weatherState);
 
     /**
      * アプリケーションを初期化
@@ -39,8 +48,16 @@ const useWeatherApp = () => {
             return false;
         }
 
+        // お気に入り地点をローカルストレージから読み込み
+        weatherService.loadFavoritesFromStorage();
+
         // 天気データの読み込み
         weatherService.loadCurrentLocationWeather();
+        
+        // お気に入り地点の天気も読み込み
+        setTimeout(() => {
+            weatherService.refreshAllFavorites();
+        }, 1000);
         
         return true;
     };
@@ -92,6 +109,19 @@ const useWeatherApp = () => {
      */
     const handleClearError = () => {
         weatherService.clearError();
+    };
+
+    /**
+     * 現在地をお気に入りに追加
+     */
+    const addCurrentLocationToFavorites = () => {
+        if (state.currentLocation) {
+            weatherService.addToFavorites(
+                state.currentLocation.name,
+                state.currentLocation.latitude,
+                state.currentLocation.longitude
+            );
+        }
     };
 
     /**
@@ -198,11 +228,18 @@ const useWeatherApp = () => {
         toggleDarkMode: handleToggleDarkMode,
         refreshWeather: handleRefresh,
         clearError: handleClearError,
+        addCurrentLocationToFavorites,
         
         // ユーティリティ関数（テンプレート用）
         getWeatherInfo: utils.getWeatherInfo,
+        getWeatherIcon: utils.getWeatherIcon,
+        getWeatherDescription: utils.getWeatherDescription,
+        getTimeString: utils.getTimeString,
         safeRound: utils.safeRound,
         getWindDirection: utils.getWindDirection,
+        
+        // サービス機能
+        weatherService,
         
         // 管理機能
         getAPIStatus,

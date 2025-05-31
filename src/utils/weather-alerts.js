@@ -34,13 +34,14 @@ const checkAlerts = (currentData, dailyData) => {
             });
         }
 
-        // 強風注意報 (50km/h以上)
+        // 強風注意報 (14m/s以上 = 50km/h以上)
         if (currentData.wind_speed_10m >= 50) {
+            const windSpeedMs = safeRound(currentData.wind_speed_10m / 3.6, 1);
             alerts.push({
                 type: 'wind',
                 icon: '💨',
                 title: '強風注意報',
-                message: `風速${safeRound(currentData.wind_speed_10m)}km/hの強風`
+                message: `風速${windSpeedMs}m/sの強風`
             });
         }
 

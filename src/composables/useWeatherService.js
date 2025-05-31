@@ -9,7 +9,7 @@
  * @param {Object} weatherData - 天気データ処理関数
  * @returns {Object} API統合関数
  */
-const useWeatherService = (state, searchQuery, weatherData) => {
+const useWeatherService = (state, searchQuery, weatherData, weatherState) => {
     if (!state || !searchQuery || !weatherData) {
         throw new Error('useWeatherService requires state, searchQuery, and weatherData parameters');
     }
@@ -176,16 +176,19 @@ const useWeatherService = (state, searchQuery, weatherData) => {
     };
 
     /**
-     * 天気データを再読み込み
+     * 天気データを再読み込み（お気に入り地点も含む）
      */
-    const refreshWeather = () => {
+    const refreshWeather = async () => {
         if (state.currentLocation && state.currentLocation.latitude && state.currentLocation.longitude) {
             // 現在の場所がある場合はその場所の天気を再読み込み
-            refreshWeatherForLocation(state.currentLocation.latitude, state.currentLocation.longitude, state.currentLocation.name);
+            await refreshWeatherForLocation(state.currentLocation.latitude, state.currentLocation.longitude, state.currentLocation.name);
         } else {
             // そうでない場合は現在地の天気を読み込み
-            loadCurrentLocationWeather();
+            await loadCurrentLocationWeather();
         }
+        
+        // お気に入り地点も更新
+        await refreshAllFavorites();
     };
 
     /**
@@ -254,6 +257,107 @@ const useWeatherService = (state, searchQuery, weatherData) => {
         return initializeAPI();
     };
 
+    const addToFavorites = async (locationName, latitude, longitude) => {
+        try {
+            if (weatherState) {
+                const location = {
+                    name: locationName,
+                    latitude: latitude,
+                    longitude: longitude
+                };
+                weatherState.addFavoriteLocation(location);
+                saveFavoritesToStorage();
+                
+                const newFavorite = state.favoriteLocations[state.favoriteLocations.length - 1];
+                if (newFavorite) {
+                    await loadFavoriteWeather(newFavorite.id);
+                }
+            }
+        } catch (error) {
+            console.error('Failed to add to favorites:', error);
+            setError(`お気に入りの追加に失敗しました: ${error.message}`);
+        }
+    };
+
+    const removeFromFavorites = (favoriteId) => {
+        try {
+            if (weatherState) {
+                weatherState.removeFavoriteLocation(favoriteId);
+                saveFavoritesToStorage();
+            }
+        } catch (error) {
+            console.error('Failed to remove from favorites:', error);
+            setError(`お気に入りの削除に失敗しました: ${error.message}`);
+        }
+    };
+
+    const loadFavoriteWeather = async (favoriteId) => {
+        const favorite = state.favoriteLocations.find(fav => fav.id === favoriteId);
+        if (!favorite) return;
+
+        try {
+            const weatherData = await fetchWeatherData(favorite.latitude, favorite.longitude);
+            if (weatherState) {
+                weatherState.updateFavoriteWeather(favoriteId, weatherData);
+            }
+        } catch (error) {
+            console.error('Failed to load favorite weather:', error);
+        }
+    };
+
+    const refreshAllFavorites = async () => {
+        const loadPromises = state.favoriteLocations.map(favorite => 
+            loadFavoriteWeather(favorite.id)
+        );
+        
+        try {
+            await Promise.all(loadPromises);
+        } catch (error) {
+            console.error('Failed to refresh favorites:', error);
+        }
+    };
+
+    const saveFavoritesToStorage = () => {
+        try {
+            localStorage.setItem('weatherDashboard_favorites', JSON.stringify(state.favoriteLocations));
+        } catch (error) {
+            console.error('Failed to save favorites to storage:', error);
+        }
+    };
+
+    const loadFavoritesFromStorage = () => {
+        try {
+            const saved = localStorage.getItem('weatherDashboard_favorites');
+            if (saved) {
+                const favorites = JSON.parse(saved);
+                state.favoriteLocations.splice(0, state.favoriteLocations.length, ...favorites);
+            }
+        } catch (error) {
+            console.error('Failed to load favorites from storage:', error);
+        }
+    };
+
+    const loadFavoriteLocationWeather = async (latitude, longitude, locationName) => {
+        setLoading(true);
+        clearError();
+
+        try {
+            const data = await fetchWeatherData(latitude, longitude);
+            
+            if (!weatherData.validateWeatherData(data)) {
+                throw new Error('取得したデータが不正です');
+            }
+
+            weatherData.updateWeatherData(data, locationName);
+
+        } catch (error) {
+            console.error('Failed to load favorite location weather:', error);
+            setError(`天気データの取得に失敗しました: ${error.message}`);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return {
         initializeService,
         loadCurrentLocationWeather,
@@ -266,6 +370,13 @@ const useWeatherService = (state, searchQuery, weatherData) => {
         checkAPIAvailability,
         clearError,
         setLoading,
-        setError
+        setError,
+        addToFavorites,
+        removeFromFavorites,
+        loadFavoriteWeather,
+        refreshAllFavorites,
+        saveFavoritesToStorage,
+        loadFavoritesFromStorage,
+        loadFavoriteLocationWeather
     };
 };
