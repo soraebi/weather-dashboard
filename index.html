@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>お天気ダッシュボード</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Vue.js 3 -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.js"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                    },
+                    screens: {
+                        'xs': '475px',
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-in-out',
+                        'slide-up': 'slideUp 0.3s ease-out',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-inter bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <div id="app"></div>
+    
+    <!-- Weather Utils Scripts -->
+    <script src="src/utils/weather-codes.js"></script>
+    <script src="src/utils/formatting-utils.js"></script>
+    <script src="src/utils/time-utils.js"></script>
+    <script src="src/utils/weather-alerts.js"></script>
+    <script src="src/utils/weather-recommendations.js"></script>
+    <script src="src/utils/index.js"></script>
+    
+    <!-- API関連ファイル（依存関係順） -->
+    <script src="src/api/config.js"></script>
+    <script src="src/api/cache-manager.js"></script>
+    <script src="src/api/japanese-cities.js"></script>
+    <script src="src/api/geocoding-api.js"></script>
+    <script src="src/api/weather-data-api.js"></script>
+    <script src="src/api/geolocation-api.js"></script>
+    <script src="src/api/weather-api.js"></script>
+    
+    <!-- Composables ファイル（依存関係順） -->
+    <script src="src/composables/useWeatherState.js"></script>
+    <script src="src/composables/useWeatherUtils.js"></script>
+    <script src="src/composables/useCharts.js"></script>
+    <script src="src/composables/useWeatherData.js"></script>
+    <script src="src/composables/useWeatherService.js"></script>
+    <script src="src/composables/useWeatherApp.js"></script>
+    
+    <!-- アプリケーションファイル -->
+    <script src="src/main.js"></script>
+
+    <!-- 分割されたテンプレートファイル（依存関係順） -->
+    <script src="src/templates/loading.js"></script>
+    <script src="src/templates/error.js"></script>
+    <script src="src/templates/header.js"></script>
+    <script src="src/templates/current-weather.js"></script>
+    <script src="src/templates/hourly-forecast.js"></script>
+    <script src="src/templates/weather-alerts.js"></script>
+    <script src="src/templates/pressure-chart.js"></script>
+    <script src="src/templates/precipitation-chart.js"></script>
+    <script src="src/templates/weekly-forecast.js"></script>
+    <script src="src/templates/card-grid.js"></script>
+    <script src="src/templates/main-content.js"></script>
+    <script src="src/templates/main-layout.js"></script>
+    <script src="src/app.js"></script>
+</body>
+</html>
