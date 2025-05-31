@@ -8,9 +8,9 @@ const hourlyForecastTemplate = () => `
             <span class="text-xl">🕐</span>
             <h3 class="text-lg font-semibold text-gray-900 dark:text-white">時間別予報</h3>
         </div>
-        <div class="space-y-3 max-h-80 overflow-y-auto">
+        <div class="space-y-3 max-h-80 overflow-y-auto px-2">
             <div v-for="hour in state.hourlyForecast" :key="hour.time" 
-                 class="flex items-center justify-between py-2 border-b border-gray-100 dark:border-gray-700 last:border-b-0">
+                 class="flex items-center justify-between py-2 px-3 border-b border-gray-100 dark:border-gray-700 last:border-b-0">
                 <span class="text-sm text-gray-600 dark:text-gray-400 w-12">{{ hour.time }}</span>
                 <span class="text-lg">{{ hour.weatherInfo.icon }}</span>
                 <span class="font-semibold text-gray-900 dark:text-white">{{ hour.temp }}°</span>
