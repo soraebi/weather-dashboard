@@ -70,6 +70,23 @@ const filterHourlyDataFromTime = (hourlyData, startTime, hours) => {
     return result;
 };
 
+/**
+ * 日付をMM/DD(aaa)形式でフォーマット
+ * @param {Date|string} date - 日付オブジェクトまたは日付文字列
+ * @returns {string} - MM/DD(aaa)形式の日付文字列
+ */
+const formatDateWithDayOfWeek = (date) => {
+    const targetDate = typeof date === 'string' ? new Date(date) : date;
+    const dayNames = ['日', '月', '火', '水', '木', '金', '土'];
+    
+    const month = targetDate.getMonth() + 1;
+    const day = targetDate.getDate();
+    const dayOfWeek = dayNames[targetDate.getDay()];
+    
+    return `${month}/${day}(${dayOfWeek})`;
+};
+
 // 関数をwindowオブジェクトに公開
 window.getNextHourTime = getNextHourTime;
 window.filterHourlyDataFromTime = filterHourlyDataFromTime;
+window.formatDateWithDayOfWeek = formatDateWithDayOfWeek;

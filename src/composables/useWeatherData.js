@@ -84,7 +84,11 @@ const useWeatherData = (state, utils, charts) => {
             const dayName = i === 0 ? '今日' : i === 1 ? '明日' : date.toLocaleDateString('ja-JP', { weekday: 'short' });
             const weatherCode = dailyData.weather_code ? dailyData.weather_code[i] : 0;
             
+            // 日付をMM/DD(aaa)形式でフォーマット
+            const formattedDate = window.formatDateWithDayOfWeek ? window.formatDateWithDayOfWeek(date) : '';
+            
             forecast.push({
+                date: formattedDate,
                 dayName,
                 weatherInfo: utils.safeGetWeatherInfo(weatherCode),
                 maxTemp: utils.safeSafeRound(dailyData.temperature_2m_max ? dailyData.temperature_2m_max[i] : 0),
