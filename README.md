@@ -64,9 +64,21 @@ weather-dashboard/
 ├── public/                 # 静的ファイル
 │   └── favicon.svg        # ダッシュボード用アイコン
 ├── src/
-│   ├── App.vue            # メインVue SFCコンポーネント
+│   ├── App.vue            # メインアプリケーション（コンポーネント統合）
 │   ├── main.js            # Viteエントリーポイント
 │   ├── style.css          # Tailwind CSS imports
+│   ├── components/        # Vueコンポーネント
+│   │   ├── LoadingOverlay.vue # ローディング表示
+│   │   ├── ErrorOverlay.vue # エラー表示
+│   │   ├── AppHeader.vue  # ヘッダー部分
+│   │   ├── SearchBar.vue  # 検索バー
+│   │   ├── FavoriteLocations.vue # お気に入り地点
+│   │   ├── CurrentWeatherCard.vue # 現在天気カード
+│   │   ├── HourlyForecastCard.vue # 時間別予報
+│   │   ├── WeatherAlertsCard.vue # 気象警報
+│   │   ├── PressureChart.vue # 気圧チャート
+│   │   ├── PrecipitationChart.vue # 降水量チャート
+│   │   └── WeeklyForecast.vue # 週間予報
 │   ├── api/               # API関連
 │   │   ├── config.js      # API設定とエンドポイント
 │   │   ├── weather-api.js # 統合APIクラス
@@ -83,8 +95,6 @@ weather-dashboard/
 │   │   ├── useWeatherUtils.js # ユーティリティ関数
 │   │   ├── useCharts.js   # Chart.js統合
 │   │   └── index.js       # Composables統合
-│   ├── templates/         # Legacy文字列テンプレート（後方互換性）
-│   │   └── ...            # 各種テンプレートファイル
 │   └── utils/             # ユーティリティ関数
 │       ├── weather-codes.js # 天気コード変換
 │       ├── formatting-utils.js # データフォーマット
@@ -106,6 +116,7 @@ weather-dashboard/
 このアプリケーションは**モダンなコンポーザブルベースアーキテクチャ**を採用しています：
 
 ### 🏗️ **設計原則**
+- **コンポーネント分割**: 11個の独立したVueコンポーネントによる責務分離
 - **Vue 3 SFC**: Single File Componentによる統合的なUIコンポーネント
 - **Composition API**: 機能ごとに分離されたComposables
 - **リアクティブ状態管理**: Vue 3のReactivity APIを活用
@@ -113,6 +124,19 @@ weather-dashboard/
 - **階層キャッシュ**: 30分TTLのインメモリキャッシュ
 - **API抽象化**: Open-Meteo APIの統合インターフェース
 - **Viteビルド最適化**: Tree-shakingとHMR対応
+
+### 🧩 **コンポーネント構成**
+- **LoadingOverlay**: ローディング状態の表示
+- **ErrorOverlay**: エラー状態の表示とリトライ機能
+- **AppHeader**: ナビゲーションとコントロールボタン
+- **SearchBar**: 都市検索機能
+- **FavoriteLocations**: お気に入り地点の管理と表示
+- **CurrentWeatherCard**: 現在の天気情報の詳細表示
+- **HourlyForecastCard**: 24時間の時間別天気予報
+- **WeatherAlertsCard**: 気象警報の表示
+- **PressureChart**: 気圧の時系列チャート
+- **PrecipitationChart**: 降水量の時系列チャート
+- **WeeklyForecast**: 7日間の週間天気予報
 
 ## 📡 データソース
 
@@ -159,8 +183,8 @@ weather-dashboard/
 ### Vite設定のカスタマイズ
 `vite.config.js` でビルド設定、プラグイン、開発サーバー設定を変更できます。
 
-### Vue SFCコンポーネントの拡張
-`src/App.vue` を分割して複数のSFCコンポーネントに分離することで、さらなるモジュール化が可能です。
+### 新しいコンポーネントの追加
+`src/components/` ディレクトリに新しいVueコンポーネントを追加し、`App.vue` でインポートすることで機能を拡張できます。
 
 ## 🤝 コントリビューション
 
