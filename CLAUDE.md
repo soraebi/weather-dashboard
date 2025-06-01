@@ -10,11 +10,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Architecture Overview
 
-This is a Vue 3 weather dashboard application built without a build system - it uses vanilla JavaScript with Vue loaded via CDN. The architecture follows a composable-based pattern:
+This is a Vue 3 weather dashboard application using Vite as the build system. The architecture follows a composable-based pattern with Single File Components:
 
 ### Core Structure
-- **Entry Point**: `index.html` loads all scripts in dependency order, Vue app mounts to `#app`
-- **App Initialization**: `src/app.js` → `src/main.js` → `useWeatherApp()` composable
+- **Entry Point**: `index.html` loads Vite dev server, Vue app mounts to `#app`
+- **App Initialization**: `src/main.js` → `App.vue` → `useWeatherApp()` composable
 - **State Management**: Reactive state managed through Vue composables, no external store
 - **API Integration**: Open-Meteo weather API with custom caching layer
 
@@ -27,7 +27,7 @@ This is a Vue 3 weather dashboard application built without a build system - it 
 6. `useWeatherApp()` - Main integration composable that orchestrates all others
 
 ### Template System
-Templates are defined as template literal strings in separate files under `src/templates/`. The main layout (`main-layout.js`) composes all other templates. Templates use Vue's template syntax and reference composable state/methods.
+The main UI is defined in `App.vue` as a Vue Single File Component. All templates use Vue's template syntax and reference composable state/methods.
 
 ### API Layer
 - `WeatherAPIConfig` class defines all API endpoints and parameters
@@ -36,4 +36,4 @@ Templates are defined as template literal strings in separate files under `src/t
 - Geolocation API integration for current location weather
 
 ### Script Loading Order
-Critical: Scripts must load in dependency order as defined in `index.html`. Utils → API → Composables → Templates → App initialization.
+Scripts are loaded via ES modules through Vite. Utils → API → Composables → App initialization.

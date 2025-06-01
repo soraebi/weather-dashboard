@@ -34,27 +34,7 @@ import './composables/useWeatherData.js'
 import './composables/useWeatherService.js'
 import './composables/useWeatherApp.js'
 
-// Templates
-import './templates/loading.js'
-import './templates/error.js'
-import './templates/header.js'
-import './templates/current-weather.js'
-import './templates/hourly-forecast.js'
-import './templates/weather-alerts.js'
-import './templates/pressure-chart.js'
-import './templates/precipitation-chart.js'
-import './templates/weekly-forecast.js'
-import './templates/favorite-locations.js'
-import './templates/card-grid.js'
-import './templates/main-content.js'
-import './templates/main-layout.js'
-
-// App initialization is handled in this file
-
-// メインアプリケーションロジック
-const createWeatherApp = () => {
-    return useWeatherApp();
-};
+// App initialization
 
 // Vue アプリケーションの作成とマウント
 import App from './App.vue'
