@@ -18,8 +18,8 @@
           <div class="flex items-center space-x-2">
             <button
               @click="$emit('add-favorite')"
-              v-if="currentLocation"
-              class="p-2 lg:p-3 bg-yellow-500 hover:bg-yellow-600 text-white rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg"
+              :disabled="!currentLocation"
+              class="p-2 lg:p-3 bg-yellow-500 hover:bg-yellow-600 text-white rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg disabled:hover:bg-yellow-500"
               title="お気に入りに追加"
             >
               ⭐
