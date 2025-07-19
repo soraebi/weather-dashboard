@@ -121,3 +121,5 @@ docs/.vitepress/dist
 # Test files
 test-*.html
 *.test.html
+
+.claude/
